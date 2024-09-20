@@ -12,7 +12,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        return inertia('Index', [
+            'posts' => Post::all(),
+        ]);
     }
 
     /**
@@ -20,7 +22,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('Create');
     }
 
     /**
@@ -28,7 +30,14 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => ['required', 'string', 'max:30'],
+            'body' => ['required', 'string', 'max:200'],
+        ]);
+        Post::create([
+            'title' => $request->title,
+            'body' => $request->body,
+        ]);
     }
 
     /**
@@ -36,7 +45,9 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        inertia('Show', [
+            'post' => $post
+        ]);
     }
 
     /**
@@ -44,7 +55,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        inertia('Edit', [
+            'post' => $post,
+        ]);
     }
 
     /**
@@ -60,6 +73,6 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
     }
 }
